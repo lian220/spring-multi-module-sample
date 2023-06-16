@@ -34,7 +34,27 @@ subprojects {
 
 	dependencies {
 		implementation("org.springframework.boot:spring-boot-starter")
+
+		// log4j2 & MDC
+		implementation("org.springframework.boot:spring-boot-starter-log4j2")
+		implementation("org.slf4j:slf4j-api:2.0.7")
+
+		//log & lombok
+		compileOnly("org.projectlombok:lombok")
+		annotationProcessor("org.projectlombok:lombok")
+
+		developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+		//test 용
+		testImplementation("org.springframework.boot:spring-boot-starter-log4j2")
 		testImplementation("org.springframework.boot:spring-boot-starter-test")
+	}
+
+	configurations {
+		all {
+			//log4j2 충돌 방지
+			exclude("org.springframework.boot", "spring-boot-starter-logging")
+		}
 	}
 
 	tasks.withType<Test> {

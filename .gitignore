@@ -36,4 +36,5 @@ out/
 ### VS Code ###
 .vscode/
 
+/md/postgres/data/
 /postgres/data/
