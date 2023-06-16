@@ -1,0 +1,4 @@
+description = "product module"
+
+dependencies {
+}
