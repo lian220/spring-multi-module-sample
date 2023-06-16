@@ -42,9 +42,18 @@ subprojects {
 	}
 }
 
+project(":core") {
+	tasks.bootJar {enabled = false}
+	tasks.jar {enabled = true}
+}
+
 project(":product") {
+	tasks.bootJar {enabled = true}
 	dependencies {
+		implementation("org.springframework.boot:spring-boot-devtools")
 		implementation("org.springframework.boot:spring-boot-starter-web")
+		implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.0.5")
+		runtimeOnly("org.postgresql:postgresql")
 		project(":core")
 	}
 }

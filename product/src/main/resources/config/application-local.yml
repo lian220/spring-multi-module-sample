@@ -1,4 +1,8 @@
 spring:
+  config:
+    activate:
+      on-profile: local
+
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     driverClassName: org.postgresql.Driver
@@ -9,4 +13,4 @@ spring:
     hibernate:
       ddl-auto: create
 
-
+server.port: 8081
