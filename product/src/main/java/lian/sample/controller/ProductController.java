@@ -1,13 +1,18 @@
 package lian.sample.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.lang.reflect.Member;
+
 @RestController
+@RequiredArgsConstructor
 public class ProductController {
 
-    @GetMapping("/test")
+    @PostMapping("/product")
     public String test() {
+
         return "hi";
     }
 }

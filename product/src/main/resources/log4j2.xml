@@ -2,7 +2,7 @@
 <Configuration status="info" monitorInterval="30">
 
     <Properties>
-        <Property name="LOG_PATH">./logs/starter.log</Property>
+        <Property name="LOG_PATH">./logs/api.log</Property>
         <Property name="LOG_FORMAT">[%date{yyyy-MM-dd HH:mm:ss}] %level %logger{36}(%file:%line) - %msg%n</Property>
     </Properties>
 

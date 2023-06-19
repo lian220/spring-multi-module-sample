@@ -23,7 +23,7 @@
             <AppenderRef ref="Console" />
         </Logger>
 
-        <Logger name="com.hanex.starter" level="DEBUG" additivity="false">
+        <Logger name="lian.sample" level="DEBUG" additivity="false">
             <AppenderRef ref="Console" />
         </Logger>
 
