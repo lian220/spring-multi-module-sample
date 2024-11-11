@@ -1,4 +1,7 @@
 package lian.sample.repository.order
 
-interface OrderRepository {
+import lian.sample.repository.order.entity.OrderJpaEntity
+import org.springframework.data.jpa.repository.JpaRepository
+
+interface OrderRepository: JpaRepository<OrderJpaEntity, Long> {
 }

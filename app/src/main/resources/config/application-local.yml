@@ -1,31 +1,32 @@
 spring:
-#  config:
-#    activate:
-#      on-profile: local
-  jpa:
-    properties:
-      hibernate:
-        jdbc:
-          batch_size: 100
-    open-in-view: false
+  config:
+    activate:
+      on-profile: local
+  output.ansi.enabled: ALWAYS
+
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306
+#    username: root
+#    password: root
+#    pool-name: HikariPool-item-master
+#    maximum-pool-size: 2
 
 datasource:
   item:
     master:
-      url: jdbc:mysql://localhost:3306
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://localhost:3306
       username: root
       password: root
       pool-name: HikariPool-item-master
       maximum-pool-size: 2
     slave:
-      url: jdbc:mysql://localhost:3306
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://localhost:3306
       username: root
       password: root
       pool-name: HikariPool-item-slave
       maximum-pool-size: 2
-
-  jpa:
-    hibernate:
-      ddl-auto: create
 
 server.port: 8081

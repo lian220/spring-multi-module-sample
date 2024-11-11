@@ -1,4 +1,4 @@
-package kr.co.mustit.jpa
+package lian.sample.jpa
 
 import jakarta.persistence.AttributeConverter
 import jakarta.persistence.Converter

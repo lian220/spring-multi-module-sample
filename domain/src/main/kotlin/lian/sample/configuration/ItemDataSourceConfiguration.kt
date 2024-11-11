@@ -1,7 +1,7 @@
-package kr.co.mustit.configuration
+package lian.sample.configuration
 
 import com.zaxxer.hikari.HikariDataSource
-import kr.co.mustit.jpa.MasterSlaveRoutingDataSource
+import lian.sample.jpa.MasterSlaveRoutingDataSource
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.jdbc.DataSourceBuilder
@@ -19,10 +19,13 @@ import javax.sql.DataSource
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-  basePackages = ["kr.co.mustit.repository.item", "kr.co.mustit.repository.dps"],
+  basePackages = ["lian.sample.repository.product", "lian.sample.repository.order"],
   entityManagerFactoryRef = "itemEntityManagerFactory",
-  transactionManagerRef = "itemTransactionManager")
-class ItemDataSourceConfiguration(private val jpaProperties: JpaProperties) {
+  transactionManagerRef = "itemTransactionManager"
+)
+class ItemDataSourceConfiguration(
+  private val jpaProperties: JpaProperties
+) {
 
   @Bean
   @ConfigurationProperties("datasource.item.master")
@@ -48,7 +51,7 @@ class ItemDataSourceConfiguration(private val jpaProperties: JpaProperties) {
   @Bean("itemEntityManagerFactory")
   fun itemEntityManagerFactory() = LocalContainerEntityManagerFactoryBean().apply {
     dataSource = itemLazyDataSource()
-    setPackagesToScan("kr.co.mustit.repository.item", "kr.co.mustit.repository.dps.jpa")
+    setPackagesToScan("lian.sample.repository.order", "lian.sample.repository.product")
     jpaVendorAdapter = HibernateJpaVendorAdapter().apply {
       setShowSql(jpaProperties.isShowSql)
       setGenerateDdl(jpaProperties.isGenerateDdl)

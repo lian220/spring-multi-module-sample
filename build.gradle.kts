@@ -1,11 +1,20 @@
 plugins {
 	java
-	id("org.springframework.boot") version "2.7.10"
-	id("io.spring.dependency-management") version "1.0.15.RELEASE"
+	id("org.springframework.boot") version "3.0.6"
+	id("io.spring.dependency-management") version "1.1.0"
+	val kotlinVersion = "1.7.22"
+
+	kotlin("jvm") version kotlinVersion
+	kotlin("plugin.spring") version kotlinVersion
+	kotlin("plugin.jpa") version kotlinVersion
+	kotlin("kapt") version kotlinVersion
 }
+
+extra["springCloudVersion"] = "2022.0.2"
 
 java {
 	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
 }
 
 allprojects {
@@ -21,11 +30,25 @@ allprojects {
 	}
 }
 
+allOpen {
+	annotation("javax.persistence.Entity")
+	annotation("javax.persistence.Embeddable")
+	annotation("javax.persistence.MappedSuperclass")
+}
+
 subprojects {
-	apply {
-		plugin("java")
-		plugin("org.springframework.boot")
-		plugin("io.spring.dependency-management")
+	apply(plugin = "org.springframework.boot")
+	apply(plugin = "io.spring.dependency-management")
+
+	apply(plugin = "org.jetbrains.kotlin.jvm")
+	apply(plugin = "org.jetbrains.kotlin.plugin.spring")
+	apply(plugin = "org.jetbrains.kotlin.plugin.jpa")
+	apply(plugin = "org.jetbrains.kotlin.kapt")
+
+	configurations {
+		compileOnly {
+			extendsFrom(configurations.annotationProcessor.get())
+		}
 	}
 
 	repositories {
@@ -33,7 +56,15 @@ subprojects {
 	}
 
 	dependencies {
+		implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 		implementation("org.springframework.boot:spring-boot-starter")
+		implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+		implementation("com.mysql:mysql-connector-j")
+
+		implementation("org.jetbrains.kotlin:kotlin-reflect")
+		implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+		kapt("org.springframework.boot:spring-boot-configuration-processor")
 
 		// log4j2 & MDC
 		implementation("org.springframework.boot:spring-boot-starter-log4j2")
@@ -50,11 +81,28 @@ subprojects {
 		testImplementation("org.springframework.boot:spring-boot-starter-test")
 	}
 
+	dependencyManagement {
+		imports {
+			mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+		}
+	}
+
+	tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+		kotlinOptions {
+			freeCompilerArgs = listOf("-Xjsr305=strict")
+			jvmTarget = "17"
+		}
+	}
+
 	configurations {
 		all {
 			//log4j2 충돌 방지
 			exclude("org.springframework.boot", "spring-boot-starter-logging")
 		}
+	}
+
+	noArg {
+		annotation("jakarta.persistence.Entity")
 	}
 
 	tasks.withType<Test> {
@@ -67,15 +115,24 @@ project(":core") {
 	tasks.jar {enabled = true}
 }
 
-project(":product") {
-	tasks.bootJar {enabled = true}
+project(":domain") {
+	tasks.bootJar {enabled = false}
+	tasks.jar {enabled = true}
 	dependencies {
-		implementation("org.springframework.boot:spring-boot-devtools")
-		implementation("org.springframework.boot:spring-boot-starter-web")
-		implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.0.5")
-		runtimeOnly("org.postgresql:postgresql")
-		project(":core")
+		implementation("jakarta.servlet:jakarta.servlet-api:6.0.0")
 	}
 }
+
+//project(":app") {
+//	tasks.bootJar {enabled = true}
+//	dependencies {
+//		implementation("org.springframework.boot:spring-boot-devtools")
+//		implementation("org.springframework.boot:spring-boot-starter-web")
+//		implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.0.5")
+//		runtimeOnly("com.mysql:mysql-connector-j")
+//		project(":core")
+//		project(":domain")
+//	}
+//}
 
 

@@ -1,26 +1,14 @@
-# docker-compose.yml
-version: '3.8'
-
+version: '3'
 services:
-  app:
-    build: .
-    container_name: musinsa-web
-    ports:
-      - "8080:8080"
+  db:
+    image: mysql:8.0
+    container_name: mysql-ramos
+    restart: always
     environment:
-      SPRING_DATASOURCE_URL: jdbc:h2:tcp://h2db:1521/demo
-      SPRING_DATASOURCE_USERNAME: sa
-      SPRING_DATASOURCE_PASSWORD:
-      SPRING_JPA_HIBERNATE_DDL_AUTO: create
-      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.H2Dialect
-    depends_on:
-      - h2db
-
-  h2db:
-    image: oscarfonts/h2:latest
-    container_name: h2-database
+      MYSQL_ROOT_PASSWORD: root
+      TZ: Asia/Seoul
     ports:
-      - "1521:1521"  # H2 Database의 TCP 포트
-      - "81:81"  # H2 웹 콘솔 포트, 8082 대신 81로 변경
-    environment:
-      H2_OPTIONS: '-tcp -tcpAllowOthers -web -webAllowOthers -ifNotExists'
+      - 3306:3306
+    volumes:
+      - ./mysql-init-files/:/docker-entrypoint-initdb.d
+    platform: linux/x86_64

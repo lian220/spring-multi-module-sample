@@ -10,7 +10,7 @@ import java.time.Instant
 
 @Entity
 @Table(name = "CATALOG")
-class CatalogJpaEntity(
+class OrderJpaEntity(
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "CATALOG_NO", nullable = false)
@@ -59,7 +59,7 @@ class CatalogJpaEntity(
     if (this === other) return true
     if (javaClass != other?.javaClass) return false
 
-    other as CatalogJpaEntity
+    other as OrderJpaEntity
 
     if (catalogNo != other.catalogNo) return false
     if (categoryNo != other.categoryNo) return false

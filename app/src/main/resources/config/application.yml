@@ -1,6 +1,15 @@
 spring:
   profiles:
     active: local
+  config:
+    location: classpath:/,classpath:/config/  # 경로 수정
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
 
   output:
     ansi:
