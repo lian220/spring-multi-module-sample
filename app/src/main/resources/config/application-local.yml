@@ -1,0 +1,31 @@
+spring:
+#  config:
+#    activate:
+#      on-profile: local
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 100
+    open-in-view: false
+
+datasource:
+  item:
+    master:
+      url: jdbc:mysql://localhost:3306
+      username: root
+      password: root
+      pool-name: HikariPool-item-master
+      maximum-pool-size: 2
+    slave:
+      url: jdbc:mysql://localhost:3306
+      username: root
+      password: root
+      pool-name: HikariPool-item-slave
+      maximum-pool-size: 2
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+server.port: 8081
